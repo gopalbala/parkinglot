@@ -1,4 +1,4 @@
-package com.gb.parkinglot.model;
+package com.gb.parkinglot.model.account;
 
 import lombok.Getter;
 import lombok.Setter;
