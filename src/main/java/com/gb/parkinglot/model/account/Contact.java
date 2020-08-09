@@ -1,5 +1,6 @@
 package com.gb.parkinglot.model.account;
 
+import com.gb.parkinglot.model.account.common.Address;
 import lombok.Getter;
 import lombok.Setter;
 
