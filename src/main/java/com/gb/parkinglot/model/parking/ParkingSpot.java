@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ParkingSpot {
+public abstract class ParkingSpot {
     private String parkingSpotId;
     private boolean isFree;
     private ParkingSpotType parkingSpotType;
