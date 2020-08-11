@@ -1,11 +1,10 @@
 package com.gb.parkinglot.repository;
 
+import com.gb.parkinglot.exceptions.InvalidParkingLotException;
+import com.gb.parkinglot.model.parking.ParkingFloor;
 import com.gb.parkinglot.model.parking.ParkingLot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ParkingLotRepository {
     public static Map<String, ParkingLot> parkingLotMap = new HashMap<>();
@@ -19,5 +18,23 @@ public class ParkingLotRepository {
 
     public ParkingLot getParkingLot(String parkingLotId) {
         return parkingLotMap.get(parkingLotId);
+    }
+
+    public ParkingFloor addParkingFloor(String parkingLotId, ParkingFloor parkingFloor)
+            throws InvalidParkingLotException {
+        ParkingLot parkingLot = parkingLotMap.get(parkingLotId);
+        if (parkingLot == null)
+            throw new InvalidParkingLotException("Invalid parking lot");
+
+        //Idempotency
+        Optional<ParkingFloor> floor = parkingLot.getParkingFloors().stream()
+                .filter(pFloor -> pFloor.getFloorId()
+                        .equalsIgnoreCase(parkingFloor.getFloorId())).findFirst();
+
+        if (floor.isPresent())
+            return floor.get();
+
+        parkingLot.getParkingFloors().add(parkingFloor);
+        return parkingFloor;
     }
 }
