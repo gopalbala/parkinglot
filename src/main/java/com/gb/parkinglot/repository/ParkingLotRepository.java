@@ -40,7 +40,8 @@ public class ParkingLotRepository {
         return parkingFloor;
     }
 
-    public ParkingSpot addParkingSpot(String parkingLotId, String parkingFloorId, ParkingSpot parkingSpot) throws InvalidParkingLotException, InvlaidParkingFloor {
+    public ParkingSpot addParkingSpot(String parkingLotId, String parkingFloorId, ParkingSpot parkingSpot)
+            throws InvalidParkingLotException, InvlaidParkingFloor {
         ParkingLot parkingLot = parkingLotMap.get(parkingLotId);
         if (parkingLot == null)
             throw new InvalidParkingLotException("Invalid parking lot");
@@ -52,11 +53,11 @@ public class ParkingLotRepository {
         }
         Optional<ParkingSpot> spot =
                 floor.get().getParkingSpots().stream().filter(pSpot ->
-                        pSpot.getParkingSpotId().equalsIgnoreCase(parkingSpot.getParkingSpotId())).findFirst();
+                        pSpot.getParkingSpotId()
+                                .equalsIgnoreCase(parkingSpot.getParkingSpotId())).findFirst();
         if (spot.isPresent())
             return spot.get();
         floor.get().getParkingSpots().add(parkingSpot);
         return parkingSpot;
-
     }
 }
