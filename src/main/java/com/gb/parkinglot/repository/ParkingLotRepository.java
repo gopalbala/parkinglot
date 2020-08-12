@@ -2,10 +2,7 @@ package com.gb.parkinglot.repository;
 
 import com.gb.parkinglot.exceptions.InvalidParkingLotException;
 import com.gb.parkinglot.exceptions.InvlaidParkingFloorException;
-import com.gb.parkinglot.model.parking.EntrancePanel;
-import com.gb.parkinglot.model.parking.ParkingFloor;
-import com.gb.parkinglot.model.parking.ParkingLot;
-import com.gb.parkinglot.model.parking.ParkingSpot;
+import com.gb.parkinglot.model.parking.*;
 
 import java.util.*;
 
@@ -79,6 +76,22 @@ public class ParkingLotRepository {
         parkingLotMap.get(parkingLotId)
                 .getEntrancePanels().add(entrancePanel);
         return entrancePanel;
+    }
+
+    public ExitPanel addExitPanel(String parkingLotId, ExitPanel exitPanel)
+            throws InvalidParkingLotException {
+        ParkingLot parkingLot = parkingLotMap.get(parkingLotId);
+        if (parkingLot == null)
+            throw new InvalidParkingLotException("Invalid parking lot");
+        Optional<EntrancePanel> ePanel =
+                parkingLotMap.get(parkingLotId)
+                        .getEntrancePanels().stream().filter(ep ->
+                        ep.getId().equalsIgnoreCase(exitPanel.getId())).findFirst();
+        if (ePanel.isPresent())
+            return exitPanel;
+        parkingLotMap.get(parkingLotId)
+                .getExitPanels().add(exitPanel);
+        return exitPanel;
     }
 
 }
