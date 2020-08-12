@@ -1,8 +1,6 @@
 package com.gb.parkinglot.model.account;
 
-import com.gb.parkinglot.model.parking.ParkingFloor;
-import com.gb.parkinglot.model.parking.ParkingLot;
-import com.gb.parkinglot.model.parking.ParkingSpot;
+import com.gb.parkinglot.model.parking.*;
 
 public class Admin extends Account {
     void addParkingFloor(ParkingLot parkingLot, ParkingFloor parkingFloor) {
@@ -10,6 +8,14 @@ public class Admin extends Account {
     }
 
     void addParkingSpot(ParkingFloor parkingFloor, ParkingSpot parkingSpot) {
+
+    }
+
+    void addEntrancePanel(EntrancePanel entrancePanel) {
+
+    }
+
+    void addExitPanel(ExitPanel exitPanel) {
 
     }
 }
