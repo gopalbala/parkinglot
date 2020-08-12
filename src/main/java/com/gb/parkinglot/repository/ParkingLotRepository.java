@@ -1,7 +1,8 @@
 package com.gb.parkinglot.repository;
 
 import com.gb.parkinglot.exceptions.InvalidParkingLotException;
-import com.gb.parkinglot.exceptions.InvlaidParkingFloor;
+import com.gb.parkinglot.exceptions.InvlaidParkingFloorException;
+import com.gb.parkinglot.model.parking.EntrancePanel;
 import com.gb.parkinglot.model.parking.ParkingFloor;
 import com.gb.parkinglot.model.parking.ParkingLot;
 import com.gb.parkinglot.model.parking.ParkingSpot;
@@ -11,6 +12,7 @@ import java.util.*;
 public class ParkingLotRepository {
     public static Map<String, ParkingLot> parkingLotMap = new HashMap<>();
     public static List<ParkingLot> parkingLots = new ArrayList<>();
+
 
     public ParkingLot addParkingLot(ParkingLot parkingLot) {
         parkingLotMap.putIfAbsent(parkingLot.getParkingLotId(), parkingLot);
@@ -41,7 +43,7 @@ public class ParkingLotRepository {
     }
 
     public ParkingSpot addParkingSpot(String parkingLotId, String parkingFloorId, ParkingSpot parkingSpot)
-            throws InvalidParkingLotException, InvlaidParkingFloor {
+            throws InvalidParkingLotException, InvlaidParkingFloorException {
         ParkingLot parkingLot = parkingLotMap.get(parkingLotId);
         if (parkingLot == null)
             throw new InvalidParkingLotException("Invalid parking lot");
@@ -49,15 +51,34 @@ public class ParkingLotRepository {
                 .filter(pFloor -> pFloor.getFloorId()
                         .equalsIgnoreCase(parkingFloorId)).findFirst();
         if (!floor.isPresent()) {
-            throw new InvlaidParkingFloor("Invalid parking floor");
+            throw new InvlaidParkingFloorException("Invalid parking floor");
         }
         Optional<ParkingSpot> spot =
-                floor.get().getParkingSpots().stream().filter(pSpot ->
+                floor.get().getParkingSpots().get(parkingSpot.getParkingSpotType())
+                        .stream().filter(pSpot ->
                         pSpot.getParkingSpotId()
                                 .equalsIgnoreCase(parkingSpot.getParkingSpotId())).findFirst();
         if (spot.isPresent())
             return spot.get();
-        floor.get().getParkingSpots().add(parkingSpot);
+
+        floor.get().getParkingSpots().get(parkingSpot.getParkingSpotType()).add(parkingSpot);
         return parkingSpot;
     }
+
+    public EntrancePanel addEntryPanel(String parkingLotId, EntrancePanel entrancePanel)
+            throws InvalidParkingLotException {
+        ParkingLot parkingLot = parkingLotMap.get(parkingLotId);
+        if (parkingLot == null)
+            throw new InvalidParkingLotException("Invalid parking lot");
+        Optional<EntrancePanel> ePanel =
+                parkingLotMap.get(parkingLotId)
+                        .getEntrancePanels().stream().filter(ep ->
+                        ep.getId().equalsIgnoreCase(entrancePanel.getId())).findFirst();
+        if (ePanel.isPresent())
+            return entrancePanel;
+        parkingLotMap.get(parkingLotId)
+                .getEntrancePanels().add(entrancePanel);
+        return entrancePanel;
+    }
+
 }
