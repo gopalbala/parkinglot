@@ -20,7 +20,6 @@ public class ParkingLot {
     public static ParkingLot INSTANCE = new ParkingLot();
 
     private ParkingLot() {
-
     }
 
     public boolean isFull() {
@@ -39,5 +38,4 @@ public class ParkingLot {
         }
         return false;
     }
-
 }
