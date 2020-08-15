@@ -5,6 +5,7 @@ import com.gb.parkinglot.model.account.Account;
 import com.gb.parkinglot.model.account.Admin;
 import com.gb.parkinglot.model.parking.*;
 import com.gb.parkinglot.model.vehicle.Car;
+import com.gb.parkinglot.model.vehicle.Van;
 import com.gb.parkinglot.model.vehicle.Vehicle;
 import com.gb.parkinglot.model.vehicle.VehicleType;
 
@@ -16,6 +17,9 @@ public class ParkinglotApplication {
         ((Admin) adminAccount).addParkingFloor(new ParkingFloor("1"));
         ((Admin) adminAccount).addParkingFloor(new ParkingFloor("2"));
 
+        EntrancePanel entrancePanel = new EntrancePanel("1");
+        ((Admin) adminAccount).addEntrancePanel(entrancePanel);
+
         String floorId = parkingLot.getParkingFloors().get(0).getFloorId();
 
         ParkingSpot carSpot1 = new CarParkingSpot("1");
@@ -26,13 +30,13 @@ public class ParkinglotApplication {
         ((Admin) adminAccount).addParkingSpot(floorId, carSpot2);
 
         // Test case 1 - check for availability of parking lot - TRUE
-        System.out.println(ParkingLot.INSTANCE.canPark(VehicleType.CAR, false));
+        System.out.println(ParkingLot.INSTANCE.canPark(VehicleType.CAR));
 
         // Test case 2 - check for availability of parking lot - FALSE
-        System.out.println(ParkingLot.INSTANCE.canPark(VehicleType.CAR, true));
+        System.out.println(ParkingLot.INSTANCE.canPark(VehicleType.CAR));
 
         // Test case 3 - check for availability of parking lot - FALSE
-        System.out.println(ParkingLot.INSTANCE.canPark(VehicleType.ELECTRIC, false));
+        System.out.println(ParkingLot.INSTANCE.canPark(VehicleType.ELECTRIC));
 
         // TEST case 4 - Check if full
         System.out.println(ParkingLot.INSTANCE.isFull());
@@ -43,5 +47,24 @@ public class ParkinglotApplication {
         System.out.println(availableSpot.getParkingSpotType());
         System.out.println(availableSpot.getParkingSpotId());
 
+        // Test case 6 - should not be able to get spot
+        Vehicle van = new Van("KA01MR7804");
+        ParkingSpot vanSpot = ParkingLot.INSTANCE.getParkingSpot(van.getType());
+        System.out.println(null == vanSpot);
+
+        //Test case 7 - Entrance Panel - 1
+        System.out.println(ParkingLot.INSTANCE.getEntrancePanels().size());
+
+        // Test case - 8 - Should be able to get parking ticket
+        ParkingTicket parkingTicket = entrancePanel.getParkingTicket(vehicle);
+        System.out.println(parkingTicket.getAllocatedSpotId());
+
+        // Test case - 9 - Should be able to get parking ticket
+        Vehicle car = new Car("KA02MR6355");
+        ParkingTicket parkingTicket1 = entrancePanel.getParkingTicket(car);
+
+        // Test case 10 - Should not be able to get ticket
+        ParkingTicket tkt = entrancePanel.getParkingTicket(new Car("ka04rb8458"));
+        System.out.println(null == tkt);
     }
 }
