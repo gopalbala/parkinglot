@@ -11,7 +11,8 @@ public abstract class Vehicle {
     private final VehicleType type;
     private ParkingTicket ticket;
 
-    public Vehicle(VehicleType type) {
+    public Vehicle(String licenseNumber, VehicleType type) {
+        this.licenseNumber = licenseNumber;
         this.type = type;
     }
 }
