@@ -6,6 +6,8 @@ import com.gb.parkinglot.model.account.Admin;
 import com.gb.parkinglot.model.parking.*;
 import com.gb.parkinglot.model.vehicle.*;
 
+import java.util.UUID;
+
 public class ParkinglotApplication {
     public static void main(String[] args) throws InvlaidParkingFloorException {
         ParkingLot parkingLot = ParkingLot.INSTANCE;
@@ -110,5 +112,17 @@ public class ParkinglotApplication {
         //Test case 18 - check for slots count
         System.out.println(ParkingLot.INSTANCE.getParkingFloors()
                 .get(0).getParkingSpots().get(ParkingSpotType.CAR).size());
+
+        //Test case 19
+        Payment payment = new Payment(UUID.randomUUID().toString(),
+                parkingTicket1.getTicketNumber(), parkingTicket1.getCharges());
+        payment.makePayment();
+        System.out.println(payment.getPaymentStatus());
+
+        //Test case 20
+        mtrTkt = exitPanel.scanAndVacate(mtrTkt);
+        System.out.println(ParkingLot.INSTANCE.getParkingFloors()
+                .get(0).getParkingSpots().get(ParkingSpotType.MOTORBIKE).size());
+        System.out.println(mtrTkt.getCharges());
     }
 }
