@@ -74,10 +74,10 @@ public class ParkingFloor {
 
     public ParkingSpot vacateSpot(String parkingSpotId) {
         ParkingSpot parkingSpot = usedParkingSpots.remove(parkingSpotId);
-        if (usedParkingSpots.get(parkingSpotId) != null) {
+        if (parkingSpot != null) {
             parkingSpot.freeSpot();
             parkingSpots.get(parkingSpot.getParkingSpotType())
-                    .addFirst(usedParkingSpots.remove(parkingSpot.getParkingSpotId()));
+                    .addFirst(parkingSpot);
             return parkingSpot;
         }
         return null;

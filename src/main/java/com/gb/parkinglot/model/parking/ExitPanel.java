@@ -21,6 +21,8 @@ public class ExitPanel {
     private double calculateCost(ParkingTicket parkingTicket, ParkingSpotType parkingSpotType) {
         Duration duration = Duration.between(parkingTicket.getIssuedAt(), LocalDateTime.now());
         long hours = duration.toHours();
+        if (hours == 0)
+            hours = 1;
         double amount = hours * new HourlyCost().getCost(parkingSpotType);
         return amount;
     }
