@@ -1,6 +1,5 @@
 package com.gb.parkinglot.model.parking;
 
-import com.gb.parkinglot.model.vehicle.Vehicle;
 import com.gb.parkinglot.model.vehicle.VehicleType;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,11 +49,11 @@ public class ParkingFloor {
         return canPark(getSpotTypeForVehicle(vehicleType));
     }
 
-    public synchronized ParkingSpot getSpot(Vehicle vehicle, boolean handicapped) {
-        if (!canPark(vehicle.getType(), handicapped))
+    public synchronized ParkingSpot getSpot(VehicleType vehicleType) {
+        if (!canPark(getSpotTypeForVehicle(vehicleType)))
             return null;
 
-        ParkingSpotType parkingSpotType = getSpotTypeForVehicle(vehicle.getType());
+        ParkingSpotType parkingSpotType = getSpotTypeForVehicle(vehicleType);
         ParkingSpot parkingSpot = parkingSpots.get(parkingSpotType)
                 .getFirst();
 

@@ -1,7 +1,6 @@
 package com.gb.parkinglot.model.parking;
 
 import com.gb.parkinglot.model.account.common.Address;
-import com.gb.parkinglot.model.vehicle.Vehicle;
 import com.gb.parkinglot.model.vehicle.VehicleType;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,9 +44,9 @@ public class ParkingLot {
         return false;
     }
 
-    public ParkingSpot getParkingSpot(Vehicle vehicle, boolean handicapped) {
+    public ParkingSpot getParkingSpot(VehicleType vehicleType) {
         for (ParkingFloor parkingFloor : ParkingLot.INSTANCE.getParkingFloors()) {
-            ParkingSpot parkingSpot = parkingFloor.getSpot(vehicle, handicapped);
+            ParkingSpot parkingSpot = parkingFloor.getSpot(vehicleType);
             if (parkingSpot != null) {
                 return parkingSpot;
             }

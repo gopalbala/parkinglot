@@ -14,10 +14,10 @@ public class EntrancePanel {
         this.id = id;
     }
 
-    public ParkingTicket getParkingTicket(Vehicle vehicle, boolean handicapped) {
+    public ParkingTicket getParkingTicket(Vehicle vehicle) {
         if (ParkingLot.INSTANCE.isFull())
             return null;
-        ParkingSpot parkingSpot = ParkingLot.INSTANCE.getParkingSpot(vehicle, handicapped);
+        ParkingSpot parkingSpot = ParkingLot.INSTANCE.getParkingSpot(vehicle.getType());
         if (parkingSpot == null)
             return null;
         return buildTicket(vehicle.getLicenseNumber(), parkingSpot.getParkingSpotId());
