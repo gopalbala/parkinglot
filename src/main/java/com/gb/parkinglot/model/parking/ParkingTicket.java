@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ParkingTicket {
     private String ticketNumber;
+    private String licensePlateNumber;
     private LocalDateTime issuedAt;
     private LocalDateTime payedAt;
     private double amountPaid;
