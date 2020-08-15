@@ -6,6 +6,7 @@ import com.gb.parkinglot.model.vehicle.VehicleType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class ParkingLot {
     public static ParkingLot INSTANCE = new ParkingLot();
 
     private ParkingLot() {
+        parkingFloors = new ArrayList<>();
+        entrancePanels = new ArrayList<>();
+        exitPanels = new ArrayList<>();
     }
 
     public boolean isFull() {

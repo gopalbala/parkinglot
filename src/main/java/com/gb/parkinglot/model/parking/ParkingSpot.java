@@ -11,6 +11,11 @@ public abstract class ParkingSpot {
     private ParkingSpotType parkingSpotType;
     private String assignedVehicleId;
 
+    public ParkingSpot(String parkingSpotId, ParkingSpotType parkingSpotType) {
+        this.parkingSpotId = parkingSpotId;
+        this.parkingSpotType = parkingSpotType;
+    }
+
     public void assignVehicleToSpot(String vehicleId) {
         this.assignedVehicleId = vehicleId;
     }
