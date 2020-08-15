@@ -12,7 +12,7 @@ public class ParkingTicket {
     private String licensePlateNumber;
     private String allocatedSpotId;
     private LocalDateTime issuedAt;
-    private LocalDateTime payedAt;
-    private double amount;
+    private LocalDateTime vacatedAt;
+    private double charges;
     private TicketStatus ticketStatus;
 }

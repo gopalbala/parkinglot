@@ -24,4 +24,9 @@ public class Payment {
         this.amount = amount;
     }
 
+    public void makePayment() {
+        this.initiatedDate = LocalDateTime.now();
+        this.paymentStatus = PaymentStatus.SUCCESS;
+        this.completedDate = LocalDateTime.now();
+    }
 }
