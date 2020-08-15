@@ -1,33 +1,60 @@
 package com.gb.parkinglot.model.account;
 
-import com.gb.parkinglot.exceptions.InvalidParkingLotException;
 import com.gb.parkinglot.exceptions.InvlaidParkingFloorException;
-import com.gb.parkinglot.model.parking.EntrancePanel;
-import com.gb.parkinglot.model.parking.ExitPanel;
-import com.gb.parkinglot.model.parking.ParkingFloor;
-import com.gb.parkinglot.model.parking.ParkingSpot;
+import com.gb.parkinglot.model.parking.*;
 import com.gb.parkinglot.repository.ParkingLotRepository;
+
+import java.util.Optional;
 
 public class Admin extends Account {
     ParkingLotRepository parkingLotRepository = new ParkingLotRepository();
 
-    void addParkingFloor(String parkingLotId, ParkingFloor parkingFloor)
-            throws InvalidParkingLotException {
-        parkingLotRepository.addParkingFloor(parkingLotId,
-                parkingFloor);
+    public void addParkingFloor(ParkingFloor parkingFloor) {
+        Optional<ParkingFloor> floor =
+                ParkingLot.INSTANCE.getParkingFloors().stream()
+                        .filter(pF -> pF.getFloorId().equalsIgnoreCase(parkingFloor.getFloorId()))
+                        .findFirst();
+        if (floor.isPresent())
+            return;
+        ParkingLot.INSTANCE.getParkingFloors().add(parkingFloor);
     }
 
-    void addParkingSpot(String parkingLotId,
-                        String parkingFloorId, ParkingSpot parkingSpot)
-            throws InvlaidParkingFloorException, InvalidParkingLotException {
-        parkingLotRepository.addParkingSpot(parkingLotId, parkingFloorId, parkingSpot);
+    public void addParkingSpot(String parkingFloorId, ParkingSpot parkingSpot)
+            throws InvlaidParkingFloorException {
+        Optional<ParkingFloor> floor =
+                ParkingLot.INSTANCE.getParkingFloors().stream()
+                        .filter(pF -> pF.getFloorId().equalsIgnoreCase(parkingFloorId))
+                        .findFirst();
+        if (!floor.isPresent())
+            throw new InvlaidParkingFloorException("Invalid floor");
+
+        Optional<ParkingSpot> spot =
+                floor.get().getParkingSpots().get(parkingSpot.getParkingSpotType())
+                        .stream()
+                        .filter(pS -> pS.getParkingSpotId().equalsIgnoreCase(parkingSpot.getParkingSpotId()))
+                        .findFirst();
+        if (spot.isPresent())
+            return;
+
+        floor.get().getParkingSpots().get(parkingSpot.getParkingSpotType())
+                .addLast(parkingSpot);
     }
 
-    void addEntrancePanel(EntrancePanel entrancePanel) {
-
+    public void addEntrancePanel(EntrancePanel entrancePanel) {
+        Optional<EntrancePanel> panel =
+                ParkingLot.INSTANCE.getEntrancePanels().stream()
+                        .filter(eP -> eP.getId().equalsIgnoreCase(entrancePanel.getId())).findFirst();
+        if (panel.isPresent())
+            return;
+        ParkingLot.INSTANCE.getEntrancePanels().add(entrancePanel);
     }
 
-    void addExitPanel(ExitPanel exitPanel) {
-
+    public void addExitPanel(ExitPanel exitPanel) {
+        Optional<ExitPanel> panel =
+                ParkingLot.INSTANCE.getExitPanels().stream()
+                        .filter(eP -> eP.getId().equalsIgnoreCase(exitPanel.getId())).findFirst();
+        if (panel.isPresent())
+            return;
+        ParkingLot.INSTANCE.getExitPanels().add(exitPanel);
     }
 }

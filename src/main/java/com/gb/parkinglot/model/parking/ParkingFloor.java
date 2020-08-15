@@ -19,11 +19,11 @@ public class ParkingFloor {
     @Setter
     private String floorId;
     @Getter
-    @Setter
     private Map<ParkingSpotType, Deque<ParkingSpot>> parkingSpots = new HashMap<>();
     private Map<String, ParkingSpot> usedParkingSpots = new HashMap<>();
 
-    public ParkingFloor() {
+    public ParkingFloor(String id) {
+        this.floorId = id;
         parkingSpots.put(HANDICAPPED, new ConcurrentLinkedDeque());
         parkingSpots.put(CAR, new ConcurrentLinkedDeque());
         parkingSpots.put(LARGE, new ConcurrentLinkedDeque());

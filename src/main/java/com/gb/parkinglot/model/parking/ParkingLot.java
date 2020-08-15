@@ -14,6 +14,7 @@ import java.util.List;
 public class ParkingLot {
     private String parkingLotId;
     private Address address;
+
     private List<ParkingFloor> parkingFloors;
     private List<EntrancePanel> entrancePanels;
     private List<ExitPanel> exitPanels;
