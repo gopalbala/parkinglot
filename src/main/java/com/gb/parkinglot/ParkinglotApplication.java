@@ -41,7 +41,7 @@ public class ParkinglotApplication {
         System.out.println(ParkingLot.INSTANCE.canPark(VehicleType.CAR));
 
         // Test case 2 - check for availability of parking lot - FALSE
-        System.out.println(ParkingLot.INSTANCE.canPark(VehicleType.CAR));
+        System.out.println(ParkingLot.INSTANCE.canPark(VehicleType.EBIKE));
 
         // Test case 3 - check for availability of parking lot - FALSE
         System.out.println(ParkingLot.INSTANCE.canPark(VehicleType.ELECTRIC));
@@ -67,6 +67,7 @@ public class ParkinglotApplication {
         ParkingTicket parkingTicket = entrancePanel.getParkingTicket(vehicle);
         System.out.println(parkingTicket.getAllocatedSpotId());
 
+        ((Admin) adminAccount).addParkingSpot(floorId, carSpot1);
         // Test case - 9 - Should be able to get parking ticket
         Vehicle car = new Car("KA02MR6355");
         ParkingTicket parkingTicket1 = entrancePanel.getParkingTicket(car);
@@ -93,6 +94,21 @@ public class ParkinglotApplication {
                 entrancePanel.getParkingTicket(new MotorBike("ka01ee4455"));
         System.out.println(null == unavaialbemTkt);
 
+        // Test cast 15 - vacate car
+        parkingTicket = exitPanel.scanAndVacate(parkingTicket);
+        System.out.println(parkingTicket.getCharges());
+        System.out.println(parkingTicket.getCharges() > 0);
 
+        //Test case 16 - Now should be able to park car
+        System.out.println(ParkingLot.INSTANCE.canPark(VehicleType.CAR));
+
+        //Test case 17 - Should be able to vacate parked vehicle
+        parkingTicket1 = exitPanel.scanAndVacate(parkingTicket1);
+        System.out.println(parkingTicket1.getCharges());
+        System.out.println(parkingTicket1.getCharges() > 0);
+
+        //Test case 18 - check for slots count
+        System.out.println(ParkingLot.INSTANCE.getParkingFloors()
+                .get(0).getParkingSpots().get(ParkingSpotType.CAR).size());
     }
 }
