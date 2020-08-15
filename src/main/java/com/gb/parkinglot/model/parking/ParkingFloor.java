@@ -63,11 +63,15 @@ public class ParkingFloor {
         return parkingSpot;
     }
 
-    private ParkingSpot vacateSpot(ParkingSpot parkingSpot) {
-        parkingSpot.freeSpot();
-        parkingSpots.get(parkingSpot.getParkingSpotType())
-                .addFirst(usedParkingSpots.remove(parkingSpot.getParkingSpotId()));
-        return parkingSpot;
+    public ParkingSpot vacateSpot(String parkingSpotId) {
+        ParkingSpot parkingSpot = usedParkingSpots.get(parkingSpotId);
+        if (usedParkingSpots.get(parkingSpotId) != null) {
+            parkingSpot.freeSpot();
+            parkingSpots.get(parkingSpot.getParkingSpotType())
+                    .addFirst(usedParkingSpots.remove(parkingSpot.getParkingSpotId()));
+            return parkingSpot;
+        }
+        return null;
     }
 
     private ParkingSpotType getSpotTypeForVehicle(VehicleType vehicleType) {

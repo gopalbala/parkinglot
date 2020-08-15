@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 public class ParkingTicket {
     private String ticketNumber;
     private String licensePlateNumber;
+    private String allocatedSpotId;
     private LocalDateTime issuedAt;
     private LocalDateTime payedAt;
-    private double amountPaid;
+    private double amount;
     private TicketStatus ticketStatus;
 }

@@ -24,7 +24,4 @@ public class Payment {
         this.amount = amount;
     }
 
-    public PaymentStatus initiatePayment() {
-        return null;
-    }
 }

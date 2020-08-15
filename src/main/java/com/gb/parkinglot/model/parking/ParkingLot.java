@@ -49,4 +49,13 @@ public class ParkingLot {
         }
         return null;
     }
+
+    public ParkingSpot vacateParkingSpot(String parkingSpotId) {
+        for (ParkingFloor parkingFloor : ParkingLot.INSTANCE.getParkingFloors()) {
+            ParkingSpot parkingSpot = parkingFloor.vacateSpot(parkingSpotId);
+            if (parkingSpot != null)
+                return parkingSpot;
+        }
+        return null;
+    }
 }

@@ -1,6 +1,5 @@
 package com.gb.parkinglot.model.parking;
 
-import com.gb.parkinglot.model.vehicle.Vehicle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,17 +11,22 @@ import java.time.LocalDateTime;
 public class ExitPanel {
     private String id;
 
-    public void scanTicket(ParkingTicket parkingTicket) {
+    public ParkingTicket scanTicket(ParkingTicket parkingTicket) {
+        ParkingSpot parkingSpot =
+                ParkingLot.INSTANCE.vacateParkingSpot(parkingTicket.getAllocatedSpotId());
+        parkingTicket.setAmount(calculateCost(parkingTicket, parkingSpot.getParkingSpotType()));
+        return parkingTicket;
+    }
+
+    public void makePayment(ParkingTicket parkingTicket) {
         parkingTicket.setPayedAt(LocalDateTime.now());
         parkingTicket.setTicketStatus(TicketStatus.PAID);
     }
 
-    public void makePayment(Vehicle vehicle) {
-        Duration duration = Duration.between(vehicle.getTicket().getIssuedAt(), LocalDateTime.now());
+    private double calculateCost(ParkingTicket parkingTicket, ParkingSpotType parkingSpotType) {
+        Duration duration = Duration.between(parkingTicket.getIssuedAt(), LocalDateTime.now());
         long hours = duration.toHours();
-        double amount = hours * new HourlyCost().getCost(vehicle.getType());
-        vehicle.getTicket().setAmountPaid(amount);
-        vehicle.getTicket().setPayedAt(LocalDateTime.now());
-        vehicle.getTicket().setTicketStatus(TicketStatus.PAID);
+        double amount = hours * new HourlyCost().getCost(parkingSpotType);
+        return amount;
     }
 }

@@ -20,12 +20,13 @@ public class EntrancePanel {
         ParkingSpot parkingSpot = ParkingLot.INSTANCE.getParkingSpot(vehicle, handicapped);
         if (parkingSpot == null)
             return null;
-        return buildTicket(vehicle.getLicenseNumber());
+        return buildTicket(vehicle.getLicenseNumber(), parkingSpot.getParkingSpotId());
     }
 
-    private ParkingTicket buildTicket(String vehicleLicenseNumber) {
+    private ParkingTicket buildTicket(String vehicleLicenseNumber, String parkingSpotId) {
         ParkingTicket parkingTicket = new ParkingTicket();
         parkingTicket.setIssuedAt(LocalDateTime.now());
+        parkingTicket.setAllocatedSpotId(parkingSpotId);
         parkingTicket.setLicensePlateNumber(vehicleLicenseNumber);
         parkingTicket.setTicketNumber(UUID.randomUUID().toString());
         parkingTicket.setTicketStatus(TicketStatus.ACTIVE);
