@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 import static com.gb.parkinglot.model.parking.ParkingSpotType.*;
 
@@ -16,15 +17,15 @@ public class ParkingFloor {
     private String floorId;
     @Getter
     @Setter
-    private Map<ParkingSpotType, TreeSet<ParkingSpot>> parkingSpots = new HashMap<>();
-    private Map<ParkingSpotType, TreeSet<ParkingSpot>> usedParkingSpots = new HashMap<>();
+    private Map<ParkingSpotType, Deque<ParkingSpot>> parkingSpots = new HashMap<>();
+    private Map<String, ParkingSpot> usedParkingSpots = new HashMap<>();
 
     public ParkingFloor() {
-        parkingSpots.put(HANDICAPPED, getComparableTreeSet());
-        parkingSpots.put(CAR, getComparableTreeSet());
-        parkingSpots.put(LARGE, getComparableTreeSet());
-        parkingSpots.put(MOTORBIKE, getComparableTreeSet());
-        parkingSpots.put(ELECTRIC, getComparableTreeSet());
+        parkingSpots.put(HANDICAPPED, new ConcurrentLinkedDeque());
+        parkingSpots.put(CAR, new ConcurrentLinkedDeque());
+        parkingSpots.put(LARGE, new ConcurrentLinkedDeque());
+        parkingSpots.put(MOTORBIKE, new ConcurrentLinkedDeque());
+        parkingSpots.put(ELECTRIC, new ConcurrentLinkedDeque());
     }
 
     private TreeSet getComparableTreeSet() {
@@ -39,7 +40,7 @@ public class ParkingFloor {
     public boolean isFloorFull() {
         BitSet fullBitSet = new BitSet();
         int bitIndex = 0;
-        for (Map.Entry<ParkingSpotType, TreeSet<ParkingSpot>> entry : parkingSpots.entrySet()) {
+        for (Map.Entry<ParkingSpotType, Deque<ParkingSpot>> entry : parkingSpots.entrySet()) {
             if (entry.getValue().size() == 0) {
                 fullBitSet.set(bitIndex++);
             } else {
@@ -61,9 +62,16 @@ public class ParkingFloor {
 
         ParkingSpotType parkingSpotType = getSpotTypeForVehicle(vehicle.getType());
         ParkingSpot parkingSpot = parkingSpots.get(parkingSpotType)
-                .first();
+                .getFirst();
         parkingSpots.remove(parkingSpot.getParkingSpotId());
-        usedParkingSpots.get(parkingSpotType).add(parkingSpot);
+        usedParkingSpots.put(parkingSpot.getParkingSpotId(), parkingSpot);
+        return parkingSpot;
+    }
+
+    private ParkingSpot vacateSpot(ParkingSpot parkingSpot) {
+        parkingSpot.freeSpot();
+        parkingSpots.get(parkingSpot.getParkingSpotType())
+                .addFirst(usedParkingSpots.remove(parkingSpot.getParkingSpotId()));
         return parkingSpot;
     }
 
