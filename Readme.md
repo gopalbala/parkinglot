@@ -6,12 +6,13 @@ Parking lot has multiple floors, multiple entry and exit points.
 Entry is recorded at entry point and payment is done at the time of exit.  
 Parking lot contains Multiple floors.  
 Parking floor containts multiple parking slots which are of different types.  
-1. HANDICAPPED
-2. CAR
-3. LARGE
-4. MOTORBIKE
-5. ELECTRIC
-6. EBIKE
+ 1. HANDICAPPED
+ 2. CAR
+ 3. LARGE
+ 4. MOTORBIKE
+ 5. ELECTRIC
+ 6. EBIKE
+
 Parking is on first come first served basis.  
 Time is recorded at the time of issuing the ticket in entry panel.  
 Time is recorded at the exit panel and charges are calculated at that point of time.  
