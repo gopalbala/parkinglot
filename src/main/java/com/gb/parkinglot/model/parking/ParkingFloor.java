@@ -5,7 +5,10 @@ import com.gb.parkinglot.model.vehicle.VehicleType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.BitSet;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 import static com.gb.parkinglot.model.parking.ParkingSpotType.*;
@@ -28,15 +31,6 @@ public class ParkingFloor {
         parkingSpots.put(ELECTRIC, new ConcurrentLinkedDeque());
     }
 
-    private TreeSet getComparableTreeSet() {
-        return new TreeSet<>(new Comparator<ParkingSpot>() {
-            @Override
-            public int compare(ParkingSpot o1, ParkingSpot o2) {
-                return o1.getParkingSpotId().compareTo(o2.getParkingSpotId());
-            }
-        });
-    }
-
     public boolean isFloorFull() {
         BitSet fullBitSet = new BitSet();
         int bitIndex = 0;
@@ -56,13 +50,14 @@ public class ParkingFloor {
         return canPark(getSpotTypeForVehicle(vehicleType));
     }
 
-    public ParkingSpot getSpot(Vehicle vehicle, boolean handicapped) {
+    public synchronized ParkingSpot getSpot(Vehicle vehicle, boolean handicapped) {
         if (!canPark(vehicle.getType(), handicapped))
             return null;
 
         ParkingSpotType parkingSpotType = getSpotTypeForVehicle(vehicle.getType());
         ParkingSpot parkingSpot = parkingSpots.get(parkingSpotType)
                 .getFirst();
+
         parkingSpots.remove(parkingSpot.getParkingSpotId());
         usedParkingSpots.put(parkingSpot.getParkingSpotId(), parkingSpot);
         return parkingSpot;
