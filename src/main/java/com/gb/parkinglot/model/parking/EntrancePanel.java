@@ -14,27 +14,19 @@ public class EntrancePanel {
         this.id = id;
     }
 
-    public ParkingTicket printTicket() {
-        return null;
-    }
-
     public ParkingTicket getParkingTicket(Vehicle vehicle, boolean handicapped) {
         if (ParkingLot.INSTANCE.isFull())
             return null;
-
-        for (ParkingFloor parkingFloor : ParkingLot.INSTANCE.getParkingFloors()) {
-            ParkingSpot parkingSpot = parkingFloor.getSpot(vehicle, handicapped);
-            if (parkingSpot != null) {
-                vehicle.setTicket(getParkingTicket());
-                return vehicle.getTicket();
-            }
-        }
-        return null;
+        ParkingSpot parkingSpot = ParkingLot.INSTANCE.getParkingSpot(vehicle, handicapped);
+        if (parkingSpot == null)
+            return null;
+        return buildTicket(vehicle.getLicenseNumber());
     }
 
-    private ParkingTicket getParkingTicket() {
+    private ParkingTicket buildTicket(String vehicleLicenseNumber) {
         ParkingTicket parkingTicket = new ParkingTicket();
         parkingTicket.setIssuedAt(LocalDateTime.now());
+        parkingTicket.setLicensePlateNumber(vehicleLicenseNumber);
         parkingTicket.setTicketNumber(UUID.randomUUID().toString());
         parkingTicket.setTicketStatus(TicketStatus.ACTIVE);
         return parkingTicket;
