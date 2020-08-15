@@ -43,37 +43,7 @@ public class ParkingFloor {
         return fullBitSet.cardinality() == fullBitSet.size();
     }
 
-    public boolean canPark(VehicleType vehicleType, boolean isHandicapped) {
-        if (isHandicapped)
-            return parkingSpots.get(HANDICAPPED).size() > 0;
-        return canPark(getSpotTypeForVehicle(vehicleType));
-    }
-
-    public synchronized ParkingSpot getSpot(VehicleType vehicleType) {
-        if (!canPark(getSpotTypeForVehicle(vehicleType)))
-            return null;
-
-        ParkingSpotType parkingSpotType = getSpotTypeForVehicle(vehicleType);
-        ParkingSpot parkingSpot = parkingSpots.get(parkingSpotType)
-                .getFirst();
-
-        parkingSpots.remove(parkingSpot.getParkingSpotId());
-        usedParkingSpots.put(parkingSpot.getParkingSpotId(), parkingSpot);
-        return parkingSpot;
-    }
-
-    public ParkingSpot vacateSpot(String parkingSpotId) {
-        ParkingSpot parkingSpot = usedParkingSpots.get(parkingSpotId);
-        if (usedParkingSpots.get(parkingSpotId) != null) {
-            parkingSpot.freeSpot();
-            parkingSpots.get(parkingSpot.getParkingSpotType())
-                    .addFirst(usedParkingSpots.remove(parkingSpot.getParkingSpotId()));
-            return parkingSpot;
-        }
-        return null;
-    }
-
-    private ParkingSpotType getSpotTypeForVehicle(VehicleType vehicleType) {
+    public static ParkingSpotType getSpotTypeForVehicle(VehicleType vehicleType) {
         switch (vehicleType) {
             case CAR:
                 return CAR;
@@ -86,7 +56,34 @@ public class ParkingFloor {
         }
     }
 
-    private boolean canPark(ParkingSpotType parkingSpotType) {
+    public boolean canPark(VehicleType vehicleType) {
+        return canPark(getSpotTypeForVehicle(vehicleType));
+    }
+
+    public synchronized ParkingSpot getSpot(VehicleType vehicleType) {
+        if (!canPark(getSpotTypeForVehicle(vehicleType)))
+            return null;
+
+        ParkingSpotType parkingSpotType = getSpotTypeForVehicle(vehicleType);
+        ParkingSpot parkingSpot = parkingSpots.get(parkingSpotType)
+                .poll();
+
+        usedParkingSpots.put(parkingSpot.getParkingSpotId(), parkingSpot);
+        return parkingSpot;
+    }
+
+    public ParkingSpot vacateSpot(String parkingSpotId) {
+        ParkingSpot parkingSpot = usedParkingSpots.remove(parkingSpotId);
+        if (usedParkingSpots.get(parkingSpotId) != null) {
+            parkingSpot.freeSpot();
+            parkingSpots.get(parkingSpot.getParkingSpotType())
+                    .addFirst(usedParkingSpots.remove(parkingSpot.getParkingSpotId()));
+            return parkingSpot;
+        }
+        return null;
+    }
+
+    public boolean canPark(ParkingSpotType parkingSpotType) {
         return parkingSpots.get(parkingSpotType).size() > 0;
     }
 

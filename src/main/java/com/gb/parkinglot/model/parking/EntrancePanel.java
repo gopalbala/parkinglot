@@ -15,7 +15,7 @@ public class EntrancePanel {
     }
 
     public ParkingTicket getParkingTicket(Vehicle vehicle) {
-        if (ParkingLot.INSTANCE.isFull())
+        if (!ParkingLot.INSTANCE.canPark(vehicle.getType()))
             return null;
         ParkingSpot parkingSpot = ParkingLot.INSTANCE.getParkingSpot(vehicle.getType());
         if (parkingSpot == null)

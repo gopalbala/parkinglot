@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
+import static com.gb.parkinglot.model.parking.ParkingFloor.getSpotTypeForVehicle;
+
 @Getter
 @Setter
 public class ParkingLot {
@@ -36,9 +38,9 @@ public class ParkingLot {
         return bitSet.cardinality() == bitSet.size();
     }
 
-    public boolean canPark(VehicleType vehicleType, boolean handicapped) {
+    public boolean canPark(VehicleType vehicleType) {
         for (ParkingFloor parkingFloor : parkingFloors) {
-            if (parkingFloor.canPark(vehicleType, handicapped))
+            if (parkingFloor.canPark(getSpotTypeForVehicle(vehicleType)))
                 return true;
         }
         return false;
