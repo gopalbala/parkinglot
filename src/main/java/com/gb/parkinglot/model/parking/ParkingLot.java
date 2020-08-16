@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
+import java.util.UUID;
 
 import static com.gb.parkinglot.model.parking.ParkingFloor.getSpotTypeForVehicle;
 
@@ -24,6 +25,7 @@ public class ParkingLot {
     public static ParkingLot INSTANCE = new ParkingLot();
 
     private ParkingLot() {
+        this.parkingLotId = UUID.randomUUID().toString();
         parkingFloors = new ArrayList<>();
         entrancePanels = new ArrayList<>();
         exitPanels = new ArrayList<>();

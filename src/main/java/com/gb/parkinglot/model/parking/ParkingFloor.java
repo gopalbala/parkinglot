@@ -23,7 +23,7 @@ public class ParkingFloor {
 
     public ParkingFloor(String id) {
         this.floorId = id;
-        parkingSpots.put(HANDICAPPED, new ConcurrentLinkedDeque());
+        parkingSpots.put(ABLED, new ConcurrentLinkedDeque());
         parkingSpots.put(CAR, new ConcurrentLinkedDeque());
         parkingSpots.put(LARGE, new ConcurrentLinkedDeque());
         parkingSpots.put(MOTORBIKE, new ConcurrentLinkedDeque());

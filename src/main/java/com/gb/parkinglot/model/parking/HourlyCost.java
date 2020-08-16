@@ -14,7 +14,7 @@ public class HourlyCost {
         hourlyCosts.put(ParkingSpotType.LARGE, 30.0);
         hourlyCosts.put(ParkingSpotType.ELECTRIC, 25.0);
         hourlyCosts.put(ParkingSpotType.MOTORBIKE, 10.0);
-        hourlyCosts.put(ParkingSpotType.HANDICAPPED, 25.0);
+        hourlyCosts.put(ParkingSpotType.ABLED, 25.0);
     }
 
     public double getCost(ParkingSpotType parkingSpotType) {

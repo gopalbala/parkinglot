@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class AbledCarParkingSpot extends ParkingSpot {
     public AbledCarParkingSpot(String id) {
-        super(id, ParkingSpotType.HANDICAPPED);
+        super(id, ParkingSpotType.ABLED);
     }
 }

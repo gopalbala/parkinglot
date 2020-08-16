@@ -3,6 +3,7 @@ package com.gb.parkinglot;
 import com.gb.parkinglot.exceptions.InvlaidParkingFloorException;
 import com.gb.parkinglot.model.account.Account;
 import com.gb.parkinglot.model.account.Admin;
+import com.gb.parkinglot.model.account.common.Address;
 import com.gb.parkinglot.model.parking.*;
 import com.gb.parkinglot.model.vehicle.*;
 
@@ -12,6 +13,15 @@ public class ParkinglotApplication {
     public static void main(String[] args) throws InvlaidParkingFloorException {
         ParkingLot parkingLot = ParkingLot.INSTANCE;
 
+        Address address = new Address();
+        address.setAddressLine1("Ram parking Complex");
+        address.setStreet("BG Road");
+        address.setCity("Bangalore");
+        address.setState("Karnataka");
+        address.setCountry("India");
+        address.setPinCode("560075");
+
+        parkingLot.setAddress(address);
         //Admin tests
         Account adminAccount = new Admin();
         //Admin Case 1 - should be able to add parking floor case

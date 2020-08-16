@@ -1,7 +1,7 @@
 package com.gb.parkinglot.model.parking;
 
 public enum ParkingSpotType {
-    HANDICAPPED,
+    ABLED,
     CAR,
     LARGE,
     MOTORBIKE,
