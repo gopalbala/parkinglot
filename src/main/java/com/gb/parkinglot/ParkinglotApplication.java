@@ -91,7 +91,7 @@ public class ParkinglotApplication {
         ParkingTicket mtrTkt1 = entrancePanel.getParkingTicket(new MotorBike("ka01ee7791"));
         System.out.println(mtrTkt.getAllocatedSpotId());
 
-        // Test case 14 - park when spot is not availalble
+        // Test case 14 - park when spot is not available
         ParkingTicket unavaialbemTkt =
                 entrancePanel.getParkingTicket(new MotorBike("ka01ee4455"));
         System.out.println(null == unavaialbemTkt);
@@ -113,13 +113,13 @@ public class ParkinglotApplication {
         System.out.println(ParkingLot.INSTANCE.getParkingFloors()
                 .get(0).getParkingSpots().get(ParkingSpotType.CAR).size());
 
-        //Test case 19
+        //Test case 19 - Payment
         Payment payment = new Payment(UUID.randomUUID().toString(),
                 parkingTicket1.getTicketNumber(), parkingTicket1.getCharges());
         payment.makePayment();
         System.out.println(payment.getPaymentStatus());
 
-        //Test case 20
+        //Test case 20 - vacate motorbike spot
         mtrTkt = exitPanel.scanAndVacate(mtrTkt);
         System.out.println(ParkingLot.INSTANCE.getParkingFloors()
                 .get(0).getParkingSpots().get(ParkingSpotType.MOTORBIKE).size());
